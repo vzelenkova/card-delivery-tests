@@ -6,10 +6,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Selenide.$;
 
 public class CardDeliveryTest {
 
@@ -22,19 +21,29 @@ public class CardDeliveryTest {
 
     @Test
     void shouldSubmitFormSuccessfully() {
+        // Открыть страницу
         open("/");
-        SelenideElement form = $("[data-test-id='form']").should(appear, Duration.ofSeconds(20));
 
+        // Ожидание загрузки формы
+        $("form").shouldBe(visible);
+
+        // Генерация будущей даты
         String futureDate = LocalDate.now().plusDays(3)
                 .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-        form.$("[data-test-id='city'] input").setValue("Москва");
-        form.$("[data-test-id='date'] input").sendKeys("\b\b\b\b\b\b\b\b\b\b" + futureDate);
-        form.$("[data-test-id='name'] input").setValue("Иван Иванов");
-        form.$("[data-test-id='phone'] input").setValue("+79991234567");
-        form.$("[data-test-id='agreement']").click();
-        form.$("button[type='button']").click();
+        // Заполнение полей формы
+        $("#city").setValue("Москва"); // Поле города
+        $("#date").setValue(futureDate); // Поле даты
+        $("#name").setValue("Иван Иванов"); // Поле имени
+        $("#phone").setValue("+79991234567"); // Поле телефона
 
-        $(" [data-test-id='notification'] ").should(appear, Duration.ofSeconds(20));
+        // Отметить чекбокс согласия
+        $("[name='agreement']").click();
+
+        // Нажать кнопку "Забронировать"
+        $("button[type='button']").filter(text("Забронировать")).click();
+
+        // Проверка успешной отправки формы
+        $("div[data-test-id='notification']").shouldBe(visible, Duration.ofSeconds(20));
     }
 }
