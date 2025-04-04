@@ -43,9 +43,8 @@ void shouldSubmitFormSuccessfully() {
     $("[name='agreement']").shouldBe(selected); // Проверка, что чекбокс отмечен
 
     // Нажать кнопку "Забронировать"
-    $(By.xpath("//span[contains(@class, 'button_text') and normalize-space(text()) = 'Забронировать']"))
+    $$("button").findBy(text("Забронировать"))
             .shouldBe(visible, Duration.ofSeconds(10)) // Явное ожидание видимости
-            .parent()
             .click();
 
     // Проверка успешной отправки формы
