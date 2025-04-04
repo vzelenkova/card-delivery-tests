@@ -22,32 +22,26 @@ public class CardDeliveryTest {
 
    @Test
 void shouldSubmitFormSuccessfully() {
-    // Открыть страницу
+    
     open("/");
 
-    // Ожидание загрузки формы
     $("form").shouldBe(visible);
 
-    // Генерация будущей даты
     String futureDate = LocalDate.now().plusDays(3)
             .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-    // Заполнение полей формы
-    $("[data-test-id='city'] input").shouldBe(visible).setValue("Москва"); // Поле города
-    $("[data-test-id='date'] input").shouldBe(visible).setValue(futureDate); // Поле даты
-    $("[data-test-id='name'] input").shouldBe(visible).setValue("Иван Иванов"); // Поле имени
-    $("[data-test-id='phone'] input").shouldBe(visible).setValue("+79991234567"); // Поле телефона
+    $("[data-test-id='city'] input").shouldBe(visible).setValue("Москва"); 
+    $("[data-test-id='date'] input").shouldBe(visible).setValue(futureDate); 
+    $("[data-test-id='name'] input").shouldBe(visible).setValue("Иван Иванов"); 
+    $("[data-test-id='phone'] input").shouldBe(visible).setValue("+79991234567"); 
 
-    // Отметить чекбокс согласия
-    $("[data-test-id='agreement']").shouldBe(visible).click(); // Клик по label
-    $("[name='agreement']").shouldBe(selected); // Проверка, что чекбокс отмечен
+    $("[data-test-id='agreement']").shouldBe(visible).click(); 
+    $("[name='agreement']").shouldBe(selected); 
 
-    // Нажать кнопку "Забронировать"
     $$("button").findBy(text("Забронировать"))
-            .shouldBe(visible, Duration.ofSeconds(10)) // Явное ожидание видимости
+            .shouldBe(visible, Duration.ofSeconds(10)) 
             .click();
 
-    // Проверка успешной отправки формы
     $("div[data-test-id='notification']")
             .shouldBe(visible, Duration.ofSeconds(20));
 }
