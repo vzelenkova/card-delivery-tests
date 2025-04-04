@@ -49,6 +49,6 @@ public class CardDeliveryTest {
         // Проверка результата
         $("[data-test-id='notification']")
                 .shouldBe(visible, Duration.ofSeconds(20))
-                .shouldHave(text("Встреча успешно запланирована на " + futureDate));
+                .shouldHave(text("Встреча успешно забронирована на " + futureDate));
     }
 }
