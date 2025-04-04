@@ -30,4 +30,4 @@ jobs:
         run: sleep 10
 
       - name: Run tests
-        run: ./gradlew test --scan -Dselenide.headless=true 
+        run: ./gradlew test --info
