@@ -38,7 +38,8 @@ void shouldSubmitFormSuccessfully() {
     $("[data-test-id='phone'] input").shouldBe(visible).setValue("+79991234567"); // Поле телефона
 
     // Отметить чекбокс согласия
-    $("[name='agreement']").shouldBe(visible).click();
+    $("[data-test-id='agreement']").shouldBe(visible).click(); // Клик по label
+    $("[name='agreement']").shouldBe(selected); // Проверка, что чекбокс отмечен
 
     // Нажать кнопку "Забронировать"
     $("[class*='button_text']:contains('Забронировать')").parent()
