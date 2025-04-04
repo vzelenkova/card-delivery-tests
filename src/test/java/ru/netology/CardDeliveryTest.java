@@ -32,13 +32,13 @@ void shouldSubmitFormSuccessfully() {
             .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
     // Заполнение полей формы
-    $("#city").setValue("Москва"); // Поле города
-    $("#date").setValue(futureDate); // Поле даты
-    $("#name").setValue("Иван Иванов"); // Поле имени
-    $("#phone").setValue("+79991234567"); // Поле телефона
+    $("[data-test-id='city'] input").shouldBe(visible).setValue("Москва"); // Поле города
+    $("[data-test-id='date'] input").shouldBe(visible).setValue(futureDate); // Поле даты
+    $("[data-test-id='name'] input").shouldBe(visible).setValue("Иван Иванов"); // Поле имени
+    $("[data-test-id='phone'] input").shouldBe(visible).setValue("+79991234567"); // Поле телефона
 
     // Отметить чекбокс согласия
-    $("[name='agreement']").click();
+    $("[name='agreement']").shouldBe(visible).click();
 
     // Нажать кнопку "Забронировать"
     $("[class*='button_text']:contains('Забронировать')").parent()
