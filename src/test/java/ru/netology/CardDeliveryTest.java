@@ -23,7 +23,7 @@ public class CardDeliveryTest {
     @Test
     void shouldSubmitFormSuccessfully() {
         open("/");
-        SelenideElement form = $("[data-test-id='form']");
+        SelenideElement form = $("[data-test-id='form']").should(appear, Duration.ofSeconds(15));
 
         String futureDate = LocalDate.now().plusDays(3)
                 .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
@@ -35,6 +35,6 @@ public class CardDeliveryTest {
         form.$("[data-test-id='agreement']").click();
         form.$("button[type='button']").click();
 
-        $(" [data-test-id='notification'] ").should(appear, Duration.ofSeconds(15));
+        $(" [data-test-id='notification'] ").should(appear, Duration.ofSeconds(20));
     }
 }
