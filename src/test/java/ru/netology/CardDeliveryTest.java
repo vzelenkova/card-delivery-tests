@@ -19,31 +19,34 @@ public class CardDeliveryTest {
         Configuration.headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
     }
 
-    @Test
-    void shouldSubmitFormSuccessfully() {
-        // Открыть страницу
-        open("/");
+   @Test
+void shouldSubmitFormSuccessfully() {
+    // Открыть страницу
+    open("/");
 
-        // Ожидание загрузки формы
-        $("form").shouldBe(visible);
+    // Ожидание загрузки формы
+    $("form").shouldBe(visible);
 
-        // Генерация будущей даты
-        String futureDate = LocalDate.now().plusDays(3)
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    // Генерация будущей даты
+    String futureDate = LocalDate.now().plusDays(3)
+            .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-        // Заполнение полей формы
-        $("#city").setValue("Москва"); // Поле города
-        $("#date").setValue(futureDate); // Поле даты
-        $("#name").setValue("Иван Иванов"); // Поле имени
-        $("#phone").setValue("+79991234567"); // Поле телефона
+    // Заполнение полей формы
+    $("#city").setValue("Москва"); // Поле города
+    $("#date").setValue(futureDate); // Поле даты
+    $("#name").setValue("Иван Иванов"); // Поле имени
+    $("#phone").setValue("+79991234567"); // Поле телефона
 
-        // Отметить чекбокс согласия
-        $("[name='agreement']").click();
+    // Отметить чекбокс согласия
+    $("[name='agreement']").click();
 
-        // Нажать кнопку "Забронировать"
-        $$("button[type='button']").findBy(text("Забронировать")).click();
+    // Нажать кнопку "Забронировать"
+    $("[class*='button_text']:contains('Забронировать')").parent()
+            .shouldBe(visible) // Явное ожидание видимости
+            .click();
 
-        // Проверка успешной отправки формы
-        $("div[data-test-id='notification']").shouldBe(visible, Duration.ofSeconds(20));
-    }
+    // Проверка успешной отправки формы
+    $("div[data-test-id='notification']")
+            .shouldBe(visible, Duration.ofSeconds(20));
+}
 }
