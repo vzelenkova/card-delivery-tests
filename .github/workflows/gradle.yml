@@ -7,24 +7,26 @@ on:
        branches: [ main ]
 
 jobs:
-     test:
-       runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-       steps:
-       - name: Checkout repository
-         uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
 
-       - name: Set up JDK 11
-         uses: actions/setup-java@v3
-         with:
-           distribution: 'temurin'
-           java-version: '11'
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
 
-       - name: Start SUT
-         run: java -jar ./artifacts/app-card-delivery.jar &
+      - name: Start application
+        run: ./gradlew run &   # Запускаем сервер в фоне
 
-       - name: Wait for SUT to be ready
-         run: sleep 5
+      - name: Wait for server to start
+        run: sleep 5   # Даем серверу время подняться
 
-       - name: Run tests
-         run: ./gradlew test --info -Dselenide.headless=true
+      - name: Run tests
+        run: ./gradlew test --info -Dselenide.headless=true
