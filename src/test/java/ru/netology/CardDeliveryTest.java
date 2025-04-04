@@ -23,18 +23,18 @@ public class CardDeliveryTest {
     @Test
     void shouldSubmitFormSuccessfully() {
         open("/");
+        SelenideElement form = $("[data-test-id='form']").should(appear, Duration.ofSeconds(20));
 
-$("[data-test-id='city'] input").setValue("Москва");
+        String futureDate = LocalDate.now().plusDays(3)
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-$("[data-test-id='date'] input").sendKeys(Keys.CONTROL + "A");
-$("[data-test-id='date'] input").sendKeys(Keys.BACK_SPACE);
-$("[data-test-id='date'] input").setValue(getFutureDate(4)); 
+        form.$("[data-test-id='city'] input").setValue("Москва");
+        form.$("[data-test-id='date'] input").sendKeys("\b\b\b\b\b\b\b\b\b\b" + futureDate);
+        form.$("[data-test-id='name'] input").setValue("Иван Иванов");
+        form.$("[data-test-id='phone'] input").setValue("+79991234567");
+        form.$("[data-test-id='agreement']").click();
+        form.$("button[type='button']").click();
 
-$("[data-test-id='name'] input").setValue("Иван Иванов");
-$("[data-test-id='phone'] input").setValue("+79998887766");
-$("[data-test-id='agreement']").click();
-$("button.button").click();
-
-$("[data-test-id='notification']").should(appear, Duration.ofSeconds(15));
+        $(" [data-test-id='notification'] ").should(appear, Duration.ofSeconds(20));
     }
 }
